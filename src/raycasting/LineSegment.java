@@ -33,6 +33,6 @@ public class LineSegment {
 
     @Override
     public String toString() {
-        return "(" + A + " -> " + B + ")";
+        return "(" + A.toString() + " -> " + B.toString() + ")";
     }
 }

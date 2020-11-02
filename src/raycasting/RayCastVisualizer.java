@@ -11,13 +11,15 @@ package raycasting;
  */
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 
 
 
-public class RayCastVisualizer extends JPanel implements MouseMotionListener{
+public class RayCastVisualizer extends JPanel implements MouseMotionListener, KeyListener{
      public static void main(String[] args) {
         JFrame window = new JFrame();
         window.setTitle("RayCast Visualizer");
@@ -38,6 +40,10 @@ public class RayCastVisualizer extends JPanel implements MouseMotionListener{
         initPolygons();
         initSegments();
         addMouseMotionListener(this);
+        
+        addKeyListener(this);
+        setFocusable(true);
+        setFocusTraversalKeysEnabled(false);
     }
 
     ArrayList<Polygon> activePolygons = new ArrayList<>();
@@ -117,24 +123,27 @@ public class RayCastVisualizer extends JPanel implements MouseMotionListener{
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        mousePos = new Point(e.getX(),e.getY());
+       /* mousePos = new Point(e.getX(),e.getY());
         currentRays = castRays(mousePos,50,100);
-        repaint();
+        repaint();*/
     }
 
-    public ArrayList<Point> castRays(Point src,int n,int dist){
+    public ArrayList<Point> castRays(double angulo,Point src,int n,int dist){
         ArrayList<Point> result = new ArrayList<>();
-        double angle_div = 2 * Math.PI / n;
-        angle_div = angle_div/4;
+        //double angle_div = 2 * Math.PI / n;
+        //double angle_div = Math.toRadians(sonar.getAngulo())/n;
+        double angle_div = Math.toRadians(angulo);
         //System.out.println("Angulo : " + angle_div);
         for (int i = 0; i < n; i++) {
             //System.out.println("Angulo X:"+(int)(src.x+Math.cos(angle_div*i)*dist)+" / Angulo Y:"+(int)(src.y+Math.sin(angle_div*i)*dist));
-            Point target = new Point((src.x+Math.cos(angle_div*i)*dist),(src.y+Math.sin(angle_div*i)*dist));
+            //Point target = new Point((src.x+Math.cos(angle_div*i)*dist),(src.y+Math.sin(angle_div*i)*dist));//angle_div*i
+            Point target = new Point((src.x+Math.cos(angle_div)*dist),(src.y+Math.sin(angle_div)*dist));//angle_div*i
             LineSegment ray = new LineSegment(src,target);
             Point ci = RayCast.getClosestIntersection(ray,activeSegments);
             if(ci != null){
                 result.add(ci);
-                //castRays(ci,1,100);
+                double ang = RayCast.getAngulo(activeSegments, ray);
+                castRays(ang,ci,1,100);
             }else{ 
                 result.add(target);
             }
@@ -142,6 +151,7 @@ public class RayCastVisualizer extends JPanel implements MouseMotionListener{
         return result;
     }
 
+    Sonar sonar = new Sonar(new Point(50,150));
     @Override
     public void paint(Graphics g) {
         super.paint(g);
@@ -150,17 +160,55 @@ public class RayCastVisualizer extends JPanel implements MouseMotionListener{
         for(Polygon p : activePolygons){
             g.drawPolygon(p);
         }
+        
+        g.setColor(Color.GREEN);
+        g.drawPolygon(sonar.getPoligono());
 
         g.setColor(Color.RED);
         for(Point p : currentRays){
-            g.drawLine((int)mousePos.x,(int)mousePos.y,(int)p.x,(int)p.y);
+            //g.drawLine((int)mousePos.x,(int)mousePos.y,(int)p.x,(int)p.y);
+            g.drawLine((int)sonar.getD().x,(int)sonar.getD().y,(int)p.x,(int)p.y);
             g.fillOval((int)p.x-5,(int)p.y-5,10,10);
         }
 
     }
 
     @Override
-    public void mouseDragged(MouseEvent e) {
+    public void mouseDragged(MouseEvent e) {}
 
+    @Override
+    public void keyTyped(KeyEvent e) {}
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        int b = e.getKeyCode();
+        if(b == KeyEvent.VK_LEFT){
+            this.sonar.cambiarPosicion(1);
+        }
+        if(b == KeyEvent.VK_UP){
+            this.sonar.cambiarPosicion(2);
+        }
+        if(b == KeyEvent.VK_RIGHT){
+            this.sonar.cambiarPosicion(3);
+        }
+        if(b == KeyEvent.VK_DOWN){
+            this.sonar.cambiarPosicion(4);
+        }
+        if(b == KeyEvent.VK_R){
+            this.sonar.cambiarAngulo(true);
+            System.out.println("rotar izquierda");
+            //this.sonar.rotarPosicion();
+        }
+        if(b == KeyEvent.VK_T){
+            //this.sonar.setAngulo(this.sonar.getAngulo()*-1);
+            this.sonar.cambiarAngulo(false);
+            //this.sonar.setAngulo(this.sonar.getAngulo()*-1);
+            System.out.println("rotar derecha");
+        }
+        currentRays = castRays(sonar.getAngulo(),sonar.getD(),50,100);
+        repaint();
     }
+
+    @Override
+    public void keyReleased(KeyEvent e) {}
 }
