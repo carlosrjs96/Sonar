@@ -193,4 +193,8 @@ public class RayCast {
         return Math.acos( productoPunto(a,b) / ( normalEuclidea(a) * normalEuclidea(b) ) );
     }
     
+    public static double calcularAngulo2(Vector a, Vector b){ 
+        return Math.atan2(b.y - a.y, b.x - b.y) * 180 / Math.PI;
+    }
+    
 }

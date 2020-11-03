@@ -112,12 +112,12 @@ public class RayCastVisualizer extends JPanel implements MouseMotionListener, Ke
                     end = new Point(p.xpoints[i+1],p.ypoints[i+1]);
                 }
                 activeSegments.add(new LineSegment(start,end));
-                System.out.println("new segment : " + start + " -> " + end);
+                //System.out.println("new segment : " + start + " -> " + end);
             }
         }
     }
 
-    Point mousePos = new Point(1,1);
+    //Point mousePos = new Point(1,1);
 
     ArrayList<Point> currentRays = new ArrayList<>();
 
@@ -142,8 +142,8 @@ public class RayCastVisualizer extends JPanel implements MouseMotionListener, Ke
             Point ci = RayCast.getClosestIntersection(ray,activeSegments);
             if(ci != null){
                 result.add(ci);
-                double ang = RayCast.getAngulo(activeSegments, ray);
-                castRays(ang,ci,1,100);
+                //double ang = RayCast.getAngulo(activeSegments, ray);
+                //castRays(ang,ci,1,100);
             }else{ 
                 result.add(target);
             }
@@ -174,12 +174,6 @@ public class RayCastVisualizer extends JPanel implements MouseMotionListener, Ke
     }
 
     @Override
-    public void mouseDragged(MouseEvent e) {}
-
-    @Override
-    public void keyTyped(KeyEvent e) {}
-
-    @Override
     public void keyPressed(KeyEvent e) {
         int b = e.getKeyCode();
         if(b == KeyEvent.VK_LEFT){
@@ -196,16 +190,24 @@ public class RayCastVisualizer extends JPanel implements MouseMotionListener, Ke
         }
         if(b == KeyEvent.VK_R){
             this.sonar.cambiarAngulo(true);
-            System.out.println("rotar izquierda");
+            //System.out.println("rotar izquierda");
         }
         if(b == KeyEvent.VK_T){
             this.sonar.cambiarAngulo(false);
-            System.out.println("rotar derecha");
+            //System.out.println("rotar derecha");
         }
+        
         currentRays = castRays(sonar.getAngulo(),sonar.getD(),50,100);
         repaint();
     }
 
     @Override
     public void keyReleased(KeyEvent e) {}
+    
+    @Override
+    public void mouseDragged(MouseEvent e) {}
+
+    @Override
+    public void keyTyped(KeyEvent e) {}
+
 }

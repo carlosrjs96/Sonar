@@ -51,76 +51,35 @@ public class Sonar {
         actualizarPoligono();
     }
     
-    /*
-    public void rotarPosicion(){        
-        //Rota el vértice D alrededor del punto C.
-        System.out.println("A -> X:"+getA().x+"/ Y:"+getA().y);
-        System.out.println("B -> X:"+getB().x+"/ Y:"+getB().y);
-        System.out.println("C -> X:"+getC().x+"/ Y:"+getC().y);
-        System.out.println("D -> X:"+getD().x+"/ Y:"+getD().y);
-
-        // newX = centerX + (point2x-centerX)*Math.cos(x) - (point2y-centerY)*Math.sin(x);
-        getC().x = getD().x + (getC().x - getD().x) * Math.cos(Math.toRadians(this.angulo))-(getC().y - getD().y)* Math.sin(Math.toRadians(this.angulo));
-        // newY = centerY + (point2x-centerX)*Math.sin(x) + (point2y-centerY)*Math.cos(x);
-        getC().y = getD().y + (getC().x - getD().x)* Math.sin(Math.toRadians(this.angulo)) + (getC().y - getD().y)* Math.cos(Math.toRadians(this.angulo));
-        //-----------
-        getA().x = getD().x + (getA().x - getD().x) * Math.cos(Math.toRadians(this.angulo))-(getA().y - getD().y)* Math.sin(Math.toRadians(this.angulo));
-        getA().y = getD().y + (getA().x - getD().x)* Math.sin(Math.toRadians(this.angulo)) + (getA().y - getD().y)* Math.cos(Math.toRadians(this.angulo));
-        //-----------
-        getB().x = getD().x + (getB().x - getD().x) * Math.cos(Math.toRadians(this.angulo))-(getB().y - getD().y)* Math.sin(Math.toRadians(this.angulo));
-        getB().y = getD().y + (getB().x - getD().x)* Math.sin(Math.toRadians(this.angulo)) + (getB().y - getD().y)* Math.cos(Math.toRadians(this.angulo));
-        System.out.println("---------------------------------");
-        System.out.println("A -> X:"+getA().x+"/ Y:"+getA().y);
-        System.out.println("B -> X:"+getB().x+"/ Y:"+getB().y);
-        System.out.println("C -> X:"+getC().x+"/ Y:"+getC().y);
-        System.out.println("D -> X:"+getD().x+"/ Y:"+getD().y);
-        //actualiza los segmentos del sonar.
-        actualizarSegmentos();
-        //actualiza los puntos del poligono.
-        actualizarPoligono();
-    }*/
     
     public void rotarPosicion(){        
         //Rota el vértice D alrededor del punto C.
+        /*System.out.println("A -> X:"+getA().x+"/ Y:"+getA().y);
+        System.out.println("B -> X:"+getB().x+"/ Y:"+getB().y);
+        System.out.println("C -> X:"+getC().x+"/ Y:"+getC().y);
+        System.out.println("D -> X:"+getD().x+"/ Y:"+getD().y);*/
+        this.setC( this.rotarPuntos(this.angulo-180,getD(),getC()) );
+        this.setA( this.rotarPuntos(this.angulo-90,getD(),getA()) );
+        this.setB( this.rotarPuntos(this.angulo+90,getD(),getB()) );
+        /*System.out.println("---------------------------------");
         System.out.println("A -> X:"+getA().x+"/ Y:"+getA().y);
         System.out.println("B -> X:"+getB().x+"/ Y:"+getB().y);
         System.out.println("C -> X:"+getC().x+"/ Y:"+getC().y);
-        System.out.println("D -> X:"+getD().x+"/ Y:"+getD().y);
-        this.setC( this.rotarPuntos2(this.angulo,getD(),getC()) );
-        this.setA( this.rotarPuntos2(this.angulo,getD(),getA()) );
-        this.setB( this.rotarPuntos2(this.angulo,getD(),getB()) );
-        System.out.println("---------------------------------");
-        System.out.println("A -> X:"+getA().x+"/ Y:"+getA().y);
-        System.out.println("B -> X:"+getB().x+"/ Y:"+getB().y);
-        System.out.println("C -> X:"+getC().x+"/ Y:"+getC().y);
-        System.out.println("D -> X:"+getD().x+"/ Y:"+getD().y);
+        System.out.println("D -> X:"+getD().x+"/ Y:"+getD().y);*/
         //actualiza los segmentos del sonar.
         actualizarSegmentos();
         //actualiza los puntos del poligono.
         actualizarPoligono();
     }
     
-    public Point rotarPuntos(double _angulo,Point pCentral,Point pARotar){
-        // newX = centerX + (point2x-centerX)*Math.cos(x) - (point2y-centerY)*Math.sin(x);
-        double x = pCentral.x + (pARotar.x - pCentral.x) * Math.cos(Math.toRadians(_angulo))-(pARotar.y - pCentral.y)* Math.sin(Math.toRadians(_angulo));
-        // newY = centerY + (point2x-centerX)*Math.sin(x) + (point2y-centerY)*Math.cos(x);
-        double y = pCentral.y + (pARotar.x - pCentral.x)* Math.sin(Math.toRadians(_angulo)) + (pARotar.y - pCentral.y)* Math.cos(Math.toRadians(_angulo));
-        return new Point(x,y);
-    }
-    
-    public Point rotarPuntos2(double _angulo,Point pCentral,Point pARotar){
-        //newX = centerX + ( cosX * (point2X-centerX) + sinX * (point2Y -centerY))
-        //newY = centerY + ( -sinX * (point2X-centerX) + cosX * (point2Y -centerY))
-        double x = pCentral.x +( Math.cos(Math.toRadians(_angulo)) * (pARotar.x - pCentral.x) + Math.sin(Math.toRadians(_angulo))*(pARotar.y - pCentral.y));
-        double y = pCentral.y +( -Math.sin(Math.toRadians(_angulo)) * (pARotar.x - pCentral.x) + Math.cos(Math.toRadians(_angulo))*(pARotar.y - pCentral.y));
-        return new Point(x,y);
-    }
-    
-    
-    
-    public double rad_a_gra(double radianes){
-        double grados = radianes * 180 / Math.PI; 
-        return grados;
+    public Point rotarPuntos(double angle, Point pCentral, Point pARotar){
+        double angle_div = Math.toRadians(angle);
+        double dist = RayCast.distance(pCentral, pARotar);
+        Point point = new Point((pCentral.x+Math.cos(angle_div)*dist),(pCentral.y+Math.sin(angle_div)*dist)); 
+        /*System.out.println(">> Angulo: "+ angle);
+        System.out.println(">> Distancia: "+ dist);
+        System.out.println(">> Punto: "+ point.toString());*/
+        return point;
     }
     
     public void cambiarAngulo(boolean lado){
@@ -129,11 +88,11 @@ public class Sonar {
             this.rotarPosicion();
         }else{
             this.angulo = this.angulo + 10;
-            this.setAngulo(getAngulo()*-1);
+            //this.setAngulo(getAngulo()*-1);
             this.rotarPosicion();
-            this.setAngulo(getAngulo()*-1);
+            //this.setAngulo(getAngulo()*-1);
         }
-        
+        //System.out.println("Angulo: "+this.angulo);
     }
     
     public void actualizarSegmentos() {
@@ -141,6 +100,7 @@ public class Sonar {
         this.Lado1.actualizarDir();
         this.Lado2.actualizarDir();
     }
+    
     public void actualizarPoligono() {
         poligono.reset();
         poligono.addPoint((int)A.x,(int)A.y);
