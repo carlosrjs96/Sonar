@@ -86,19 +86,9 @@ public class Sonar {
         System.out.println("B -> X:"+getB().x+"/ Y:"+getB().y);
         System.out.println("C -> X:"+getC().x+"/ Y:"+getC().y);
         System.out.println("D -> X:"+getD().x+"/ Y:"+getD().y);
-        
-        //newX = centerX + ( cosX * (point2X-centerX) + sinX * (point2Y -centerY))
-        //newY = centerY + ( -sinX * (point2X-centerX) + cosX * (point2Y -centerY))
-      
-        getC().x = getD().x +( Math.cos(Math.toRadians(this.angulo)) * (getC().x - getD().x) + Math.sin(Math.toRadians(this.angulo))*(getC().y - getD().y));
-        getC().x = getD().x +( -Math.sin(Math.toRadians(this.angulo)) * (getC().x - getD().x) + Math.cos(Math.toRadians(this.angulo))*(getC().y - getD().y));
-        
-        getA().x = getD().x +( Math.cos(Math.toRadians(this.angulo)) * (getA().x - getD().x) + Math.sin(Math.toRadians(this.angulo))*(getA().y - getD().y));
-        getA().x = getD().x +( -Math.sin(Math.toRadians(this.angulo)) * (getA().x - getD().x) + Math.cos(Math.toRadians(this.angulo))*(getA().y - getD().y));
-        
-        getB().x = getD().x +( Math.cos(Math.toRadians(this.angulo)) * (getB().x - getD().x) + Math.sin(Math.toRadians(this.angulo))*(getB().y - getD().y));
-        getB().x = getD().x +( -Math.sin(Math.toRadians(this.angulo)) * (getB().x - getD().x) + Math.cos(Math.toRadians(this.angulo))*(getB().y - getD().y));
-        
+        this.setC( this.rotarPuntos2(this.angulo,getD(),getC()) );
+        this.setA( this.rotarPuntos2(this.angulo,getD(),getA()) );
+        this.setB( this.rotarPuntos2(this.angulo,getD(),getB()) );
         System.out.println("---------------------------------");
         System.out.println("A -> X:"+getA().x+"/ Y:"+getA().y);
         System.out.println("B -> X:"+getB().x+"/ Y:"+getB().y);
@@ -108,6 +98,22 @@ public class Sonar {
         actualizarSegmentos();
         //actualiza los puntos del poligono.
         actualizarPoligono();
+    }
+    
+    public Point rotarPuntos(double _angulo,Point pCentral,Point pARotar){
+        // newX = centerX + (point2x-centerX)*Math.cos(x) - (point2y-centerY)*Math.sin(x);
+        double x = pCentral.x + (pARotar.x - pCentral.x) * Math.cos(Math.toRadians(_angulo))-(pARotar.y - pCentral.y)* Math.sin(Math.toRadians(_angulo));
+        // newY = centerY + (point2x-centerX)*Math.sin(x) + (point2y-centerY)*Math.cos(x);
+        double y = pCentral.y + (pARotar.x - pCentral.x)* Math.sin(Math.toRadians(_angulo)) + (pARotar.y - pCentral.y)* Math.cos(Math.toRadians(_angulo));
+        return new Point(x,y);
+    }
+    
+    public Point rotarPuntos2(double _angulo,Point pCentral,Point pARotar){
+        //newX = centerX + ( cosX * (point2X-centerX) + sinX * (point2Y -centerY))
+        //newY = centerY + ( -sinX * (point2X-centerX) + cosX * (point2Y -centerY))
+        double x = pCentral.x +( Math.cos(Math.toRadians(_angulo)) * (pARotar.x - pCentral.x) + Math.sin(Math.toRadians(_angulo))*(pARotar.y - pCentral.y));
+        double y = pCentral.y +( -Math.sin(Math.toRadians(_angulo)) * (pARotar.x - pCentral.x) + Math.cos(Math.toRadians(_angulo))*(pARotar.y - pCentral.y));
+        return new Point(x,y);
     }
     
     
@@ -120,10 +126,14 @@ public class Sonar {
     public void cambiarAngulo(boolean lado){
         if(lado){
             this.angulo = this.angulo - 10;
+            this.rotarPosicion();
         }else{
             this.angulo = this.angulo + 10;
+            this.setAngulo(getAngulo()*-1);
+            this.rotarPosicion();
+            this.setAngulo(getAngulo()*-1);
         }
-        rotarPosicion();
+        
     }
     
     public void actualizarSegmentos() {

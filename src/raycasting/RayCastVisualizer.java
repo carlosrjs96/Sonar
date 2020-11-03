@@ -197,12 +197,9 @@ public class RayCastVisualizer extends JPanel implements MouseMotionListener, Ke
         if(b == KeyEvent.VK_R){
             this.sonar.cambiarAngulo(true);
             System.out.println("rotar izquierda");
-            //this.sonar.rotarPosicion();
         }
         if(b == KeyEvent.VK_T){
-            //this.sonar.setAngulo(this.sonar.getAngulo()*-1);
             this.sonar.cambiarAngulo(false);
-            //this.sonar.setAngulo(this.sonar.getAngulo()*-1);
             System.out.println("rotar derecha");
         }
         currentRays = castRays(sonar.getAngulo(),sonar.getD(),50,100);

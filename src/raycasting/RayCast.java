@@ -152,7 +152,7 @@ public class RayCast {
         return calcularAngulo(interseco.dir, rayo.dir);
     }
     
-    
+    /*
     public static LineSegment getClosestIntersection2(LineSegment ray,ArrayList<LineSegment> segments){
         LineSegment closestIntersect = null;
         double closestDistance = Double.MAX_VALUE;
@@ -174,7 +174,7 @@ public class RayCast {
             }
         }
         return closestIntersect;
-    }
+    }*/
     
     
     public static double normalEuclidea(Vector a){
