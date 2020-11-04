@@ -127,6 +127,8 @@ public class RayCastVisualizer extends JPanel implements MouseMotionListener, Ke
         currentRays = castRays(mousePos,50,100);
         repaint();*/
     }
+    
+    ArrayList<Pixel> currentPixels = new ArrayList<>();
 
     public ArrayList<Point> castRays(double angulo,Point src,int n,int dist){
         ArrayList<Point> result = new ArrayList<>();
@@ -140,6 +142,7 @@ public class RayCastVisualizer extends JPanel implements MouseMotionListener, Ke
             Point target = new Point((src.x+Math.cos(angle_div)*dist),(src.y+Math.sin(angle_div)*dist));//angle_div*i
             LineSegment ray = new LineSegment(src,target);
             Point ci = RayCast.getClosestIntersection(ray,activeSegments);
+            
             if(ci != null){
                 result.add(ci);
                 //double ang = RayCast.getAngulo(activeSegments, ray);
@@ -170,7 +173,12 @@ public class RayCastVisualizer extends JPanel implements MouseMotionListener, Ke
             g.drawLine((int)sonar.getD().x,(int)sonar.getD().y,(int)p.x,(int)p.y);
             g.fillOval((int)p.x-5,(int)p.y-5,10,10);
         }
-
+        
+        for (Pixel pixel : currentPixels) {
+            g.setColor(pixel.color);
+            g.drawLine((int)pixel.point.x, (int)pixel.point.y,(int)pixel.point.x, (int)pixel.point.y);
+        }
+        
     }
 
     @Override
@@ -190,14 +198,12 @@ public class RayCastVisualizer extends JPanel implements MouseMotionListener, Ke
         }
         if(b == KeyEvent.VK_R){
             this.sonar.cambiarAngulo(true);
-            //System.out.println("rotar izquierda");
         }
         if(b == KeyEvent.VK_T){
             this.sonar.cambiarAngulo(false);
-            //System.out.println("rotar derecha");
         }
         
-        currentRays = castRays(sonar.getAngulo(),sonar.getD(),50,100);
+        this.currentRays = castRays(sonar.getAngulo(),sonar.getD(),50,100);
         repaint();
     }
 

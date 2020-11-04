@@ -54,44 +54,22 @@ public class Sonar {
     
     public void rotarPosicion(){        
         //Rota el vértice D alrededor del punto C.
-        /*System.out.println("A -> X:"+getA().x+"/ Y:"+getA().y);
-        System.out.println("B -> X:"+getB().x+"/ Y:"+getB().y);
-        System.out.println("C -> X:"+getC().x+"/ Y:"+getC().y);
-        System.out.println("D -> X:"+getD().x+"/ Y:"+getD().y);*/
-        this.setC( this.rotarPuntos(this.angulo-180,getD(),getC()) );
-        this.setA( this.rotarPuntos(this.angulo-90,getD(),getA()) );
-        this.setB( this.rotarPuntos(this.angulo+90,getD(),getB()) );
-        /*System.out.println("---------------------------------");
-        System.out.println("A -> X:"+getA().x+"/ Y:"+getA().y);
-        System.out.println("B -> X:"+getB().x+"/ Y:"+getB().y);
-        System.out.println("C -> X:"+getC().x+"/ Y:"+getC().y);
-        System.out.println("D -> X:"+getD().x+"/ Y:"+getD().y);*/
+        this.setC( RayCast.rotarPuntos(this.angulo-180,getD(),getC()) );
+        this.setA( RayCast.rotarPuntos(this.angulo-90,getD(),getA()) );
+        this.setB( RayCast.rotarPuntos(this.angulo+90,getD(),getB()) );
         //actualiza los segmentos del sonar.
         actualizarSegmentos();
         //actualiza los puntos del poligono.
         actualizarPoligono();
     }
     
-    public Point rotarPuntos(double angle, Point pCentral, Point pARotar){
-        double angle_div = Math.toRadians(angle);
-        double dist = RayCast.distance(pCentral, pARotar);
-        Point point = new Point((pCentral.x+Math.cos(angle_div)*dist),(pCentral.y+Math.sin(angle_div)*dist)); 
-        /*System.out.println(">> Angulo: "+ angle);
-        System.out.println(">> Distancia: "+ dist);
-        System.out.println(">> Punto: "+ point.toString());*/
-        return point;
-    }
-    
     public void cambiarAngulo(boolean lado){
         if(lado){
-            this.angulo = this.angulo - 10;
-            this.rotarPosicion();
+            this.angulo = this.angulo - 5;
         }else{
-            this.angulo = this.angulo + 10;
-            //this.setAngulo(getAngulo()*-1);
-            this.rotarPosicion();
-            //this.setAngulo(getAngulo()*-1);
+            this.angulo = this.angulo + 5;
         }
+        this.rotarPosicion();
         //System.out.println("Angulo: "+this.angulo);
     }
     

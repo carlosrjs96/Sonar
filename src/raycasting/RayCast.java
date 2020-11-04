@@ -9,6 +9,7 @@ package raycasting;
  *
  * @author Carlos
  */
+import java.awt.Color;
 import java.util.ArrayList;
 import javax.swing.text.Segment;
 
@@ -139,29 +140,22 @@ public class RayCast {
     }
 
     public static double getAngulo(ArrayList<LineSegment> lineSegments, LineSegment rayo ){
-        LineSegment interseco = null;
-        for (LineSegment lineSegment : lineSegments) {
-            interseco = getIntersection2(rayo, lineSegment);
-            System.out.println("-->> "+ lineSegment.toString());
-            if(lineSegment != null){
-                System.out.println("si entra");
-                break;
-            }
-        }
+        LineSegment interseco = getSegmentIntersection(rayo, lineSegments);
         //System.out.println("Interseco: "+interseco.A.toString()+" ** "+interseco.B.toString());
         return calcularAngulo(interseco.dir, rayo.dir);
     }
     
-    /*
-    public static LineSegment getClosestIntersection2(LineSegment ray,ArrayList<LineSegment> segments){
-        LineSegment closestIntersect = null;
+    
+    public static LineSegment getSegmentIntersection(LineSegment ray,ArrayList<LineSegment> segments){
+        Point closestIntersect = null;
+        LineSegment lineCercana = null;
         double closestDistance = Double.MAX_VALUE;
         for(LineSegment l : segments){
             Point intersect = getIntersection(ray,l);
-            LineSegment intersect2 = 
             if(intersect == null) continue;
             if(closestIntersect == null || distance(ray.A,intersect) < closestDistance){
                 closestIntersect = intersect;
+                lineCercana = l;
                 closestDistance = distance(ray.A,intersect);
             }
         }
@@ -170,11 +164,28 @@ public class RayCast {
             if(intersect == null) continue;
             if(closestIntersect == null || distance(ray.A,intersect) < closestDistance){
                 closestIntersect = intersect;
+                lineCercana = l;
                 closestDistance = distance(ray.A,intersect);
             }
         }
-        return closestIntersect;
-    }*/
+        return lineCercana;
+    }
+    
+    public static Point rotarPuntos(double angle, Point pCentral, Point pARotar){
+        double angle_div = Math.toRadians(angle);
+        double dist = RayCast.distance(pCentral, pARotar);
+        Point point = new Point((pCentral.x+Math.cos(angle_div)*dist),(pCentral.y+Math.sin(angle_div)*dist)); 
+        /*System.out.println(">> Angulo: "+ angle);
+        System.out.println(">> Distancia: "+ dist);
+        System.out.println(">> Punto: "+ point.toString());*/
+        return point;
+    }
+    
+    public static Point calcularPunto(double angle, Point pCentral,double dist){
+        double angle_div = Math.toRadians(angle);
+        Point point = new Point((pCentral.x+Math.cos(angle_div)*dist),(pCentral.y+Math.sin(angle_div)*dist)); 
+        return point;
+    }
     
     
     public static double normalEuclidea(Vector a){
@@ -195,6 +206,11 @@ public class RayCast {
     
     public static double calcularAngulo2(Vector a, Vector b){ 
         return Math.atan2(b.y - a.y, b.x - b.y) * 180 / Math.PI;
+    }
+    
+    public static Color getColor(int intensidad){
+        int rgb = ((intensidad * 255) / 100);
+        return  new Color(rgb, rgb, rgb);
     }
     
 }
