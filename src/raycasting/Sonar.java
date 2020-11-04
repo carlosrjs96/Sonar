@@ -37,13 +37,13 @@ public class Sonar {
     
     public void cambiarPosicion(int direccion){
         if(direccion == 1){//IZQUIERDA
-            this.A.x += -10; this.B.x += -10; this.C.x += -10; this.D.x += -10; 
+            this.A.x += -5; this.B.x += -5; this.C.x += -5; this.D.x += -5; 
         }else if(direccion == 2){//ARRIBA
-            this.A.y += -10; this.B.y += -10; this.C.y += -10; this.D.y += -10;
+            this.A.y += -5; this.B.y += -5; this.C.y += -5; this.D.y += -5;
         }else if(direccion == 3){//DERECHA
-            this.A.x += 10; this.B.x += 10; this.C.x += 10; this.D.x += 10; 
+            this.A.x += 5; this.B.x += 5; this.C.x += 5; this.D.x += 5; 
         }else if(direccion == 4){//ABAJO
-            this.A.y += 10; this.B.y += 10; this.C.y += 10; this.D.y += 10;
+            this.A.y += 5; this.B.y += 5; this.C.y += 5; this.D.y += 5;
         }
         //actualiza los segmentos del sonar.
         actualizarSegmentos();

@@ -13,8 +13,7 @@ import java.awt.Color;
  */
 public class Rayo {
     LineSegment linea;
-    public final double distanciaTotal = 1000;
-    double distanciaInicial;//cuanta energia arranco  //1000 //770 //370 ---//800|70% //600|60% //450|45%
+    double distanciaInicial;//cuanta energia arranco  //1000 //770 //370 ---//800|80% //600|60% //450|45%
     double distanciaRestante;//cuanta energia termino //770 //370 //270**---//600|60% //450|45% //200|20%
     int intensidad;
     double angulo;
@@ -29,7 +28,7 @@ public class Rayo {
     // 1000   distrestante
     // 100      x
     public int asignarIntensidad(){ 
-        return (int)(this.distanciaRestante * 100) / (int)this.distanciaTotal;
+        return (int)(this.distanciaRestante * 100) / (int)RayCast.DIST_MAX_RAYO;
     }
 
     public LineSegment getLinea() {

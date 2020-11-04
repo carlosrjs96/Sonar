@@ -11,10 +11,13 @@ package raycasting;
  */
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Random;
 import javax.swing.text.Segment;
 
 public class RayCast {
     public static final double EPSILON = 0.000001;
+    public static final Random random = new Random();
+    public static final double DIST_MAX_RAYO = 1000;
 
     public static double crossProduct(Vector a, Vector b) {
         return a.x * b.y - b.x * a.y;
@@ -187,6 +190,16 @@ public class RayCast {
         return point;
     }
     
+    public static double getDistRayoSecundario(double dist,double anguloRayoP,double anguloRayoS){
+        //dist = dist/4;
+        if(anguloRayoP>=anguloRayoS){
+            return dist * anguloRayoS / anguloRayoP;
+        }else{
+            double diferencia = anguloRayoP - anguloRayoS;
+            anguloRayoS = anguloRayoP + diferencia;
+            return dist * anguloRayoS / anguloRayoP;
+        }
+    }
     
     public static double normalEuclidea(Vector a){
         return Math.sqrt(Math.pow(a.x, 2) + Math.pow(a.y, 2));

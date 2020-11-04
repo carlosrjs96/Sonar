@@ -16,6 +16,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
+import java.util.Random;
 
 
 
@@ -119,8 +120,7 @@ public class RayCastVisualizer extends JPanel implements MouseMotionListener, Ke
 
     //Point mousePos = new Point(1,1);
 
-    ArrayList<Point> currentRays = new ArrayList<>();
-
+  
     @Override
     public void mouseMoved(MouseEvent e) {
        /* mousePos = new Point(e.getX(),e.getY());
@@ -128,31 +128,43 @@ public class RayCastVisualizer extends JPanel implements MouseMotionListener, Ke
         repaint();*/
     }
     
+    ArrayList<Rayo> currentRays = new ArrayList<>();
+
     ArrayList<Pixel> currentPixels = new ArrayList<>();
 
-    public ArrayList<Point> castRays(double angulo,Point src,int n,int dist){
-        ArrayList<Point> result = new ArrayList<>();
-        //double angle_div = 2 * Math.PI / n;
-        //double angle_div = Math.toRadians(sonar.getAngulo())/n;
-        double angle_div = Math.toRadians(angulo);
-        //System.out.println("Angulo : " + angle_div);
-        for (int i = 0; i < n; i++) {
-            //System.out.println("Angulo X:"+(int)(src.x+Math.cos(angle_div*i)*dist)+" / Angulo Y:"+(int)(src.y+Math.sin(angle_div*i)*dist));
-            //Point target = new Point((src.x+Math.cos(angle_div*i)*dist),(src.y+Math.sin(angle_div*i)*dist));//angle_div*i
-            Point target = new Point((src.x+Math.cos(angle_div)*dist),(src.y+Math.sin(angle_div)*dist));//angle_div*i
-            LineSegment ray = new LineSegment(src,target);
-            Point ci = RayCast.getClosestIntersection(ray,activeSegments);
+    public ArrayList<Rayo> castRays(double angulo,Point src,int n,int dist){
+        ArrayList<Rayo> result = new ArrayList<>();
+        int cantRayos = RayCast.random.nextInt(80 - 30) + 30;//crea la cantidad de rayos random entre 30-80
+        for (int i = 0; i < cantRayos; i++) {
+            double angle_div;
+            int new_dist;
+            if(i == 0){
+               angle_div = angulo; //crea el angulo del rayo principal
+               new_dist = dist;
+            }else{//REVISAR EL ANGULO ALEATORIO SOLO SIRVE PARA EL SONAR<<<<<<<<<<<<<<<<<<<
+               angle_div = RayCast.random.nextInt((int)(angulo+90) - (int)(angulo-90)) + (int)(angulo-90); //crea el angulo random del rayo secundario
+               //new_dist = (int)RayCast.getDistRayoSecundario(dist, angulo, angle_div);
+               //angle_div = angulo;
+               new_dist = dist;
+            }
+            
+            Point target = RayCast.calcularPunto(angle_div, src, new_dist); //calcula el punto destino del rayo
+            LineSegment ray = new LineSegment(src,target);//crea el segmento del rayo
+            Point ci = RayCast.getClosestIntersection(ray,activeSegments);// crea el punto de interseccion del rayo con un segmento
             
             if(ci != null){
-                result.add(ci);
+                result.add(new Rayo(new LineSegment(src, ci), RayCast.distance(src, ci), angulo)); //result.add(ci);
                 //double ang = RayCast.getAngulo(activeSegments, ray);
                 //castRays(ang,ci,1,100);
             }else{ 
-                result.add(target);
+                result.add(new Rayo(ray, new_dist, angulo)); //result.add(target);
             }
         }
         return result;
     }
+    
+    
+    
 
     Sonar sonar = new Sonar(new Point(50,150));
     @Override
@@ -168,10 +180,11 @@ public class RayCastVisualizer extends JPanel implements MouseMotionListener, Ke
         g.drawPolygon(sonar.getPoligono());
 
         g.setColor(Color.RED);
-        for(Point p : currentRays){
+        for(Rayo p : currentRays){
             //g.drawLine((int)mousePos.x,(int)mousePos.y,(int)p.x,(int)p.y);
-            g.drawLine((int)sonar.getD().x,(int)sonar.getD().y,(int)p.x,(int)p.y);
-            g.fillOval((int)p.x-5,(int)p.y-5,10,10);
+            //g.drawLine((int)sonar.getD().x,(int)sonar.getD().y,(int)p.x,(int)p.y);
+            g.drawLine((int)p.linea.A.x,(int)p.linea.A.y,(int)p.linea.B.x,(int)p.linea.B.y);
+            //g.fillOval((int)p.x-5,(int)p.y-5,10,10);
         }
         
         for (Pixel pixel : currentPixels) {
