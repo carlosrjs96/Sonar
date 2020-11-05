@@ -26,9 +26,11 @@ public class LineSegment {
         this.B = new Point(A.x + dir.x,A.y + dir.y);
     }
     
-    public void actualizarDir(){
-        dir.x = B.x-A.x;
-        dir.y = B.y-A.y;
+    public void actualizarDir(Point A,Point B){
+        this.A = A;
+        this.B = B;
+        this.dir.x = B.x-A.x;
+        this.dir.y = B.y-A.y;
     }
 
     @Override

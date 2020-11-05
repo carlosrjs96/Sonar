@@ -201,6 +201,8 @@ public class RayCast {
         }
     }
     
+    
+    
     public static double normalEuclidea(Vector a){
         return Math.sqrt(Math.pow(a.x, 2) + Math.pow(a.y, 2));
     }
@@ -220,6 +222,29 @@ public class RayCast {
     public static double calcularAngulo2(Vector a, Vector b){ 
         return Math.atan2(b.y - a.y, b.x - b.y) * 180 / Math.PI;
     }
+    
+    public static double calcRotationAngle(Point A, Point B) {
+        double angle = Math.toDegrees(Math.atan2(B.x - A.x, B.y - A.y));
+        // Keep angle between 0 and 360
+        angle = angle + Math.ceil(-angle / 360) * 360;
+        return angle;
+    }
+    
+    public static double calcRotationAngle2(Point firstPoint, Point secondPoint) {
+
+        if ((secondPoint.x > firstPoint.x)) {//above 0 to 180 degrees
+
+            return (Math.atan2((secondPoint.x - firstPoint.x), (firstPoint.y - secondPoint.y)) * 180 / Math.PI);
+
+        } else if ((secondPoint.x < firstPoint.x)) {//above 180 degrees to 360/0
+
+            return 360 - (Math.atan2((firstPoint.x - secondPoint.x), (firstPoint.y - secondPoint.y)) * 180 / Math.PI);
+
+        }//End if((secondPoint.x > firstPoint.x) && (secondPoint.y <= firstPoint.y))
+
+        return Math.atan2(0, 0);
+
+    }//End public float getAngleFromPoint(Point firstPoint, Point secondPoint)
     
     public static Color getColor(int intensidad){
         int rgb = ((intensidad * 255) / 100);

@@ -24,7 +24,7 @@ public class Sonar {
     double angulo;
     
     public Sonar( Point D) {
-        this.angulo = 270;
+        this.angulo = 90;
         this.A = new Point(D.x - 20 , D.y);
         this.B = new Point(D.x + 20 , D.y);
         this.C = new Point(D.x , D.y+40);
@@ -65,18 +65,18 @@ public class Sonar {
     
     public void cambiarAngulo(boolean lado){
         if(lado){
-            this.angulo = this.angulo - 5;
+            this.angulo = this.angulo - 3;
         }else{
-            this.angulo = this.angulo + 5;
+            this.angulo = this.angulo + 3;
         }
         this.rotarPosicion();
         //System.out.println("Angulo: "+this.angulo);
     }
     
     public void actualizarSegmentos() {
-        this.Boca.actualizarDir();
-        this.Lado1.actualizarDir();
-        this.Lado2.actualizarDir();
+        this.Boca.actualizarDir(this.A,this.B);
+        this.Lado1.actualizarDir(this.A,this.C);
+        this.Lado2.actualizarDir(this.B,this.C);
     }
     
     public void actualizarPoligono() {

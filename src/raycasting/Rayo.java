@@ -23,6 +23,7 @@ public class Rayo {
         this.distanciaInicial = distancia;
         this.distanciaRestante = distancia - RayCast.distance(this.linea.A, this.linea.B);
         this.intensidad = this.asignarIntensidad();
+        //System.out.println("Intesidad>>"+ this.intensidad);
         this.angulo = angulo;
     }  
     // 1000   distrestante
