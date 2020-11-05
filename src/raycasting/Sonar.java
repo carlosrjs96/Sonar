@@ -24,7 +24,7 @@ public class Sonar {
     double angulo;
     
     public Sonar( Point D) {
-        this.angulo = 90;
+        this.angulo = 270;
         this.A = new Point(D.x - 20 , D.y);
         this.B = new Point(D.x + 20 , D.y);
         this.C = new Point(D.x , D.y+40);
