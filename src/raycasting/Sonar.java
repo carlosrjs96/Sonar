@@ -7,6 +7,8 @@ package raycasting;
 
 import java.awt.Polygon;
 
+
+
 /**
  *
  * @author Carlos
@@ -32,7 +34,10 @@ public class Sonar {
         this.Boca = new LineSegment(A,B);
         this.Lado1 = new LineSegment(A,C);
         this.Lado2 = new LineSegment(B,C);
+        this.lineaCentral = new LineSegment(D,C);
         actualizarPoligono();
+
+        System.out.println("ang : " + RayCast.calcularAngulo(Boca.dir, lineaCentral.dir));
     }
     
     public void cambiarPosicion(int direccion){
@@ -61,6 +66,11 @@ public class Sonar {
         actualizarSegmentos();
         //actualiza los puntos del poligono.
         actualizarPoligono();
+        LineSegment l = new LineSegment(D, C);
+        System.out.println("ang : " + Math.toDegrees(RayCast.calcularAngulo(Boca.dir, l.dir)));
+        System.out.println(Boca.toString());
+        System.out.println(l.toString());
+        System.out.println("ang rad : " + angulo);
     }
     
     public void cambiarAngulo(boolean lado){

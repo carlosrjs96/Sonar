@@ -87,7 +87,9 @@ public class RayCast {
         for(LineSegment l : segments){
             Point intersect = getIntersection(ray,l);
             if(intersect == null) continue;
-            if(closestIntersect == null || distance(ray.A,intersect) < closestDistance){
+            if(closestIntersect == null || (distance(ray.A,intersect) < closestDistance&&distance(ray.A,intersect)>2)){
+                
+
                 closestIntersect = intersect;
                 closestDistance = distance(ray.A,intersect);
             }
@@ -95,7 +97,7 @@ public class RayCast {
         for(LineSegment l : segments){
             Point intersect = getIntersection(l,ray);
             if(intersect == null) continue;
-            if(closestIntersect == null || distance(ray.A,intersect) < closestDistance){
+            if(closestIntersect == null || (distance(ray.A,intersect) < closestDistance&&distance(ray.A,intersect)>2)){
                 closestIntersect = intersect;
                 closestDistance = distance(ray.A,intersect);
             }
@@ -156,7 +158,7 @@ public class RayCast {
         for(LineSegment l : segments){
             Point intersect = getIntersection(ray,l);
             if(intersect == null) continue;
-            if(closestIntersect == null || distance(ray.A,intersect) < closestDistance){
+            if(closestIntersect == null || (distance(ray.A,intersect) < closestDistance&&distance(ray.A,intersect)>2)){
                 closestIntersect = intersect;
                 lineCercana = l;
                 closestDistance = distance(ray.A,intersect);
@@ -165,7 +167,7 @@ public class RayCast {
         for(LineSegment l : segments){
             Point intersect = getIntersection(l,ray);
             if(intersect == null) continue;
-            if(closestIntersect == null || distance(ray.A,intersect) < closestDistance){
+            if(closestIntersect == null || (distance(ray.A,intersect) < closestDistance&&distance(ray.A,intersect)>2)){
                 closestIntersect = intersect;
                 lineCercana = l;
                 closestDistance = distance(ray.A,intersect);

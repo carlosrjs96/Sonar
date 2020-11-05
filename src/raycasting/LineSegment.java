@@ -17,7 +17,8 @@ public class LineSegment {
     public LineSegment(Point A,Point B){
         this.A = A;
         this.B = B;
-        dir = new Vector(B.x-A.x,B.y-A.y);
+        dir = createVector (A,B);
+        //dir = new Vector(B.x-A.x,B.y-A.y);
     }
 
     public LineSegment(Point A,Vector dir){
@@ -36,5 +37,12 @@ public class LineSegment {
     @Override
     public String toString() {
         return "(" + A.toString() + " -> " + B.toString() + ")";
+    }
+
+    private Vector createVector(Point A, Point B) {
+        if (A.x >= B.x ) {
+            return new Vector (A.x-B.x, A.y-B.y);  
+        }
+        return new Vector (B.x-A.x, B.y-A.y);  
     }
 }
