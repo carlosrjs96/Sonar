@@ -132,7 +132,6 @@ public class RayCastVisualizer extends JPanel implements MouseMotionListener, Ke
     ArrayList<Pixel> currentPixels = new ArrayList<>();
 
     public void cast(ArrayList<Rayo> result, double angulo, Point src, int dist, int n) {
-        
         //System.out.println("a : " + Math.toDegrees(angulo));
         if (dist > 0 && n != 0) {
             Point target = RayCast.calcularPunto(angulo, src, dist); // calcula el punto destino del rayo
@@ -140,7 +139,7 @@ public class RayCastVisualizer extends JPanel implements MouseMotionListener, Ke
             Point ci = RayCast.getClosestIntersection(ray, activeSegments);// crea el punto de interseccion del rayo con
             //hay que obetner el punto más cercano pero que no contenga al punto
             if (ci != null) {
-                Rayo rayo = new Rayo(new LineSegment(src, ci), RayCast.distance(src, ci), angulo);
+                Rayo rayo = new Rayo(new LineSegment(src, ci), dist, angulo);
                 result.add(rayo); // result.add(ci);
                 // currentPixels.add(new Pixel(ci,rayo.intensidad));
                 // double ang = RayCast.getAngulo(activeSegments, ray);
@@ -161,13 +160,9 @@ public class RayCastVisualizer extends JPanel implements MouseMotionListener, Ke
                 
             }
             else {
-                int distNew = dist - (int) RayCast.distance(src, ci)-1;
-                result.add(new Rayo(ray, distNew, angulo)); // result.add(target);
-            }
-            
+                result.add(new Rayo(ray, dist, angulo)); // result.add(target);
+            }    
         }
-        
-
     }
 
 
@@ -279,7 +274,7 @@ public class RayCastVisualizer extends JPanel implements MouseMotionListener, Ke
         //this.currentRays = castRays(sonar.Boca, sonar.getAngulo(), sonar.getD(), 50, 100);
         this.currentRays.clear();
         System.out.println("a : " + sonar.getAngulo());
-        cast (this.currentRays, sonar.getAngulo(), sonar.getD(), 1000,5);
+        cast (this.currentRays, sonar.getAngulo(), sonar.getD(), 200,5);
         System.out.println("------------------------");
         repaint();
     }
