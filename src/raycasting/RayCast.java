@@ -252,5 +252,21 @@ public class RayCast {
         int rgb = ((intensidad * 255) / 100);
         return  new Color(rgb, rgb, rgb);
     }
+
+    public static double in180(double ang){
+        if (ang>= 90){
+            return Math.abs(180-ang);
+        }
+        return ang;
+    }
+
+    public static double in360 (double ang) {
+        return ang % 360;
+    }
+    
+    public static Vector normaliza (Vector vector) {
+        double d = normalEuclidea(vector);
+        return new Vector (vector.x/d, vector.y/d);
+    }
     
 }

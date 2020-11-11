@@ -133,6 +133,7 @@ public class RayCastVisualizer extends JPanel implements MouseMotionListener, Ke
 
     public void cast(ArrayList<Rayo> result, double angulo, Point src, int dist, int n) {
         //System.out.println("a : " + Math.toDegrees(angulo));
+        angulo = angulo %360;
         if (dist > 0 && n != 0) {
             Point target = RayCast.calcularPunto(angulo, src, dist); // calcula el punto destino del rayo
             LineSegment ray = new LineSegment(src, target);// crea el segmento del rayo
@@ -144,19 +145,56 @@ public class RayCastVisualizer extends JPanel implements MouseMotionListener, Ke
                 // currentPixels.add(new Pixel(ci,rayo.intensidad));
                 // double ang = RayCast.getAngulo(activeSegments, ray);
                 // castRays(ang,ci,1,100);
+                
+                //obtner el angulo entre el segmento de intersecion y un punto
+                LineSegment interseco = RayCast.getSegmentIntersection(ray, activeSegments);//OBTENGO EL SEGMENTO CON EL QUE INTERSECO
+                Vector normal = RayCast.normaliza(interseco.dir);//obtengo la normal del vector intersecado
+                double angRayNormal = Math.toDegrees(RayCast.calcularAngulo(normal, ray.dir));
+                //System.out.println("normal " + normal.toString());
+                //System.out.println("ang1 normal " + angRayNormal);
+
+
+                //System.out.println("ang2 normal " + Math.toDegrees(RayCast.calcularAngulo(interseco.dir, ray.dir)));
+                LineSegment li = new LineSegment(new Point(20,30), new Point(40,30));
+                double angBase = Math.toDegrees(RayCast.calcularAngulo(interseco.dir, li.dir));
+                //System.out.println("angbas" + angBase);
+
+                
+                Vector v = RayCast.normaliza(ray.dir);
+                
+
+
+
                 double ang = Math.toDegrees(RayCast.getAngulo(activeSegments, ray));//retorna en radianes
+                ang = RayCast.in180(ang);
+
+                System.out.println("Ang incidencia : " + ang);
+                
+                System.out.println("Ang incidencia : " + ang);
+                System.out.println("ang rayo : "  + angulo);
+                System.out.println("m = " + (angulo + ang *2));
+                Point newP =  RayCast.rotarPuntos(angulo - ang*2, ci, src);
+                LineSegment line = new LineSegment (newP, ci);
+                double angNuevo = Math.toDegrees(RayCast.calcularAngulo(line.dir, li.dir));
+                System.out.println("ang nuevo : " + angNuevo);
+                
+
+                double trueAng = RayCast.in360(angulo+ angBase + RayCast.in180(ang)-180);
+                //System.out.println(RayCast.in180(ang));
+                //System.out.println("true " + trueAng);
+
                 /*if (ang > 90) {
                     ang -= 90;
                 }*/
-                System.out.println(ang);
+                //System.out.println(angulo);
                 
-                System.out.println("n : " + n + " angulo " + ang);
-                System.out.println("src" + src.toString());
-                System.out.println("ci: " + ci.toString());
+                //System.out.println("n : " + n + " angulo " + ang);
+                //System.out.println("src" + src.toString());
+                //System.out.println("ci: " + ci.toString());
                 
                 int distNew = dist - (int) RayCast.distance(src, ci)-1;
                 //System.out.println("dist : " + distNew);
-                cast(result, ang, ci, distNew, n - 1);
+                cast(result, angulo - ang *2, ci, distNew, n - 1);
                 
             }
             else {
