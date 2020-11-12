@@ -142,61 +142,18 @@ public class RayCastVisualizer extends JPanel implements MouseMotionListener, Ke
             //hay que obetner el punto más cercano pero que no contenga al punto
             if (ci != null) {
                 Rayo rayo = new Rayo(new LineSegment(src, ci), dist, angulo);
-                result.add(rayo); // result.add(ci);
-                // currentPixels.add(new Pixel(ci,rayo.intensidad));
-                // double ang = RayCast.getAngulo(activeSegments, ray);
-                // castRays(ang,ci,1,100);
-                /*
-                //obtner el angulo entre el segmento de intersecion y un punto
-                LineSegment interseco = RayCast.getSegmentIntersection(ray, activeSegments);//OBTENGO EL SEGMENTO CON EL QUE INTERSECO
-                Vector normal = RayCast.normaliza(interseco.dir);//obtengo la normal del vector intersecado
-                double angRayNormal = Math.toDegrees(RayCast.calcularAngulo(normal, ray.dir));
-                
-
-
-                //System.out.println("ang2 normal " + Math.toDegrees(RayCast.calcularAngulo(interseco.dir, ray.dir)));
-                LineSegment li = new LineSegment(new Point(20,30), new Point(40,30));
-                double angBase = Math.toDegrees(RayCast.calcularAngulo(interseco.dir, li.dir));
-                
-
-                
-                Vector v = RayCast.normaliza(ray.dir);
-                
-
-
-
-                double ang = Math.toDegrees(RayCast.getAngulo(activeSegments, ray));//retorna en radianes
-                ang = RayCast.in180(ang);
-
-                System.out.println("Ang incidencia : " + ang);
-                
-                System.out.println("Ang incidencia : " + ang);
-                System.out.println("ang rayo : "  + angulo);
-                System.out.println("m = " + (angulo + ang *2));
-                Point newP =  RayCast.rotarPuntos(angulo - ang*2, ci, src);
-                LineSegment line = new LineSegment (newP, ci);
-                double angNuevo = Math.toDegrees(RayCast.calcularAngulo(line.dir, li.dir));
-                System.out.println("ang nuevo : " + angNuevo);
-                
-
-                double trueAng = RayCast.in360(angulo+ angBase + RayCast.in180(ang)-180);
-                //System.out.println(RayCast.in180(ang));
-                //System.out.println("true " + trueAng);
-
-               */
-            
-                LineSegment interseco = RayCast.getSegmentIntersection(ray, activeSegments);//OBTENGO EL SEGMENTO CON EL QUE INTERSECO
-                //Point interseccion = RayCast.getIntersection (ray, interseco);
-        
-                //if (interseccion !=null){
-                    Point reflected = RayCast.getReflected(interseco, ray, src, target);
-                    System.out.println("target : " + target.toString());
-                    System.out.println("reflected : " + reflected.toString());
-                    double angTrue = RayCast.calculateAngle(ci, reflected);
-                    int distNew = dist - (int) RayCast.distance(src, ci)-1;
-                    //double ang = Math.toDegrees(RayCast.getAngulo(activeSegments, ray));//retorna en radianes
+                result.add(rayo); 
+                    System.out.println("----------------" + n);
+                    LineSegment interseco = RayCast.getSegmentIntersection(ray, activeSegments);//OBTENGO EL SEGMENTO CON EL QUE INTERSECO
+                    System.out.println("segmen : " + interseco.toString());
+                    Point reflected = RayCast. getRayReflectedTip(interseco,  ray );
                     
-                    cast(result, angTrue, ci, distNew, n - 1);//angulo - ang * 2
+                    double angTrue = RayCast.calculateAngle(ci, reflected);
+                    System.out.println("angulo : " + angTrue);
+                    int distNew = dist - (int) RayCast.distance(src, ci)-1;
+                    
+                    
+                    cast(result, angTrue, ci, dist, n - 1);//angulo - ang * 2
                // }
                 
                 
