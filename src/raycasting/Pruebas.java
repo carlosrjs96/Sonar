@@ -17,7 +17,7 @@ public class Pruebas {
     public static void main(String[] args) {
         // TODO code application logic here
         LineSegment line = new LineSegment(new Point(300, 100),new Point(500, 300));
-        LineSegment ray = new LineSegment(new Point(400, 400),new Point(400, 100));
+        LineSegment ray = new LineSegment(new Point(400, 100),new Point(400, 400));
         
         System.out.println("Resutado: " + RayCast.getRayReflectedTip(line, ray));
         //LineSegment ray = new LineSegment(new Point(400, 400),new Point(400, 100));

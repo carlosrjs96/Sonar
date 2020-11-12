@@ -273,7 +273,7 @@ public class RayCast {
         double rayX = ray.B.x - intersection.x; // ray.B.x - ray.A.x;
        // System.out.println("rayX = "+rayX);
         
-        double rayY = ray.B.y - intersection.x; //ray.B.y - ray.A.y;
+        double rayY = ray.B.y - intersection.y; //ray.B.y - ray.A.y;
        // System.out.println("rayY = "+rayY);
         
         double dotProduct = (rayX * normalX) + (rayY * normalY);
@@ -286,10 +286,10 @@ public class RayCast {
         
         double reflectedRayTipX = ray.B.x - (dotNormalX * 2);
         double reflectedRayTipY = ray.B.y - (dotNormalY * 2);
-        System.out.println("reflectedRayTipX = " + reflectedRayTipX);
-        System.out.println("reflectedRayTipY = " + reflectedRayTipY);
+        //System.out.println("reflectedRayTipX = " + reflectedRayTipX);
+        //System.out.println("reflectedRayTipY = " + reflectedRayTipY);
         Point reflectedRayTip = new Point(reflectedRayTipX,reflectedRayTipY);
-        System.out.println("*** ANGULO DEL RAYO REFLETADO :"+RayCast.calculateAngle(ray.B,reflectedRayTip));
+        //System.out.println("*** ANGULO DEL RAYO REFLETADO :"+RayCast.calculateAngle(ray.B,reflectedRayTip));
         return reflectedRayTip;
     }
     
