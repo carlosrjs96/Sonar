@@ -225,29 +225,34 @@ public class RayCast {
         return Math.atan2(b.y - a.y, b.x - b.y) * 180 / Math.PI;
     }
     
-    public static double calcRotationAngle(Point A, Point B) {
-        double angle = Math.toDegrees(Math.atan2(B.x - A.x, B.y - A.y));
-        // Keep angle between 0 and 360
-        angle = angle + Math.ceil(-angle / 360) * 360;
-        return angle;
+    public static double calculateAngle(Point P1,Point P2,Point P3){ //calcula el angulo a partir de 3 puntos (P1 como origen)
+        double P1X = P1.x; double P1Y = P1.y; 
+        double P2X = P2.x; double P2Y = P2.y;
+        double P3X = P3.x; double P3Y = P3.y;
+        double numerator = P2Y*(P1X-P3X) + P1Y*(P3X-P2X) + P3Y*(P2X-P1X);
+        double denominator = (P2X-P1X)*(P1X-P3X) + (P2Y-P1Y)*(P1Y-P3Y);
+        double ratio = numerator/denominator;
+
+        double angleRad = Math.atan(ratio);
+        double angleDeg = (angleRad*180)/Math.PI;
+
+        if(angleDeg<0){
+            angleDeg = 180+angleDeg;
+        }
+        return angleDeg;
     }
     
-    public static double calcRotationAngle2(Point firstPoint, Point secondPoint) {
+    public static double calculateAngle(Point origen, Point destino){//Calcula el angulo de una linea a partir de un punto de origen
+        double x1 = destino.x; 
+        double y1 = destino.y; 
+        double x2 = origen.x; 
+        double y2 = origen.y;
+        double hypothenus=(double)Math.sqrt(Math.pow(x1-x2,2)+Math.pow(y1-y2,2));
+        double angle=(double)Math.toDegrees(Math.acos( (x1-x2)/hypothenus ));
+        if(y1<y2) angle=360-angle;
+        return angle;
+    }
 
-        if ((secondPoint.x > firstPoint.x)) {//above 0 to 180 degrees
-
-            return (Math.atan2((secondPoint.x - firstPoint.x), (firstPoint.y - secondPoint.y)) * 180 / Math.PI);
-
-        } else if ((secondPoint.x < firstPoint.x)) {//above 180 degrees to 360/0
-
-            return 360 - (Math.atan2((firstPoint.x - secondPoint.x), (firstPoint.y - secondPoint.y)) * 180 / Math.PI);
-
-        }//End if((secondPoint.x > firstPoint.x) && (secondPoint.y <= firstPoint.y))
-
-        return Math.atan2(0, 0);
-
-    }//End public float getAngleFromPoint(Point firstPoint, Point secondPoint)
-    
     public static Color getColor(int intensidad){
         int rgb = ((intensidad * 255) / 100);
         return  new Color(rgb, rgb, rgb);
