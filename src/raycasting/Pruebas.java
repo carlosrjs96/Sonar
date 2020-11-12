@@ -17,12 +17,14 @@ public class Pruebas {
     public static void main(String[] args) {
         // TODO code application logic here
         LineSegment line = new LineSegment(new Point(300, 100),new Point(500, 300));
-        LineSegment ray = new LineSegment(new Point(400, 400),new Point(400, 200));
-       // LineSegment ray = new LineSegment(new Point(400, 400),new Point(400, 100));
-   
-        System.out.println("ANGULO 3 puntos :"+RayCast.calculateAngle(ray.B, line.A , ray.A));
+        LineSegment ray = new LineSegment(new Point(400, 400),new Point(400, 100));
         
-        System.out.println("ANGULO 2 puntos :"+RayCast.calculateAngle(ray.B, line.B));
+        System.out.println("Resutado: " + RayCast.getRayReflectedTip(line, ray));
+        //LineSegment ray = new LineSegment(new Point(400, 400),new Point(400, 100));
+   
+        //System.out.println("ANGULO 3 puntos :"+RayCast.calculateAngle(ray.B, line.A , ray.A));
+        
+        //System.out.println("ANGULO 2 puntos :"+RayCast.calculateAngle(ray.B, line.B));
    
         //LineSegment line = new LineSegment(new Point(2, 6),new Point(4, 4));
         //LineSegment ray = new LineSegment(new Point(3, 3),new Point(3, 6));
@@ -40,10 +42,13 @@ public class Pruebas {
 //        System.out.println("> normalY = "+normalY);
 //        System.out.println("> normalX = "+normalX);
 //        
-//        double rayX = ray.B.x - ray.A.x;
+//        Point intersection = RayCast.getIntersection(ray, line);
+//        System.out.println("Intersection : "+intersection.toString());
+//        
+//        double rayX = ray.B.x - intersection.x; // ray.B.x - ray.A.x;
 //        System.out.println("rayX = "+rayX);
 //        
-//        double rayY = ray.B.y - ray.A.y;
+//        double rayY = ray.B.y - intersection.x; //ray.B.y - ray.A.y;
 //        System.out.println("rayY = "+rayY);
 //        
 //        double dotProduct = (rayX * normalX) + (rayY * normalY);
@@ -58,10 +63,9 @@ public class Pruebas {
 //        double reflectedRayTipY = ray.B.y - (dotNormalY * 2);
 //        System.out.println("reflectedRayTipX = " + reflectedRayTipX);
 //        System.out.println("reflectedRayTipY = " + reflectedRayTipY);
-//        
+//        Point reflectedRayTip = new Point(reflectedRayTipX,reflectedRayTipY);
+//        System.out.println("*** ANGULO DEL RAYO REFLETADO :"+RayCast.calculateAngle(ray.B,reflectedRayTip));
     }
-    
-    
-    
+     
 }
 

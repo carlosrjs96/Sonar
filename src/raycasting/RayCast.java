@@ -252,7 +252,47 @@ public class RayCast {
         if(y1<y2) angle=360-angle;
         return angle;
     }
-
+    
+    public static Point getRayReflectedTip(LineSegment line, LineSegment ray ){
+        double normalY = line.B.x - line.A.x;
+       // System.out.println("normalY = "+normalY);
+        double normalX = line.A.y - line.B.y;
+       // System.out.println("normalX = "+normalX);
+        
+        double normalLength = Math.sqrt(normalX * normalX + normalY * normalY);
+       // System.out.println("normalLength = "+normalLength);
+        
+        normalX = normalX / normalLength;
+        normalY = normalY / normalLength;
+       // System.out.println("> normalY = "+normalY);
+       // System.out.println("> normalX = "+normalX);
+        
+        Point intersection = RayCast.getIntersection(ray, line);
+       // System.out.println("Intersection : "+intersection.toString());
+        
+        double rayX = ray.B.x - intersection.x; // ray.B.x - ray.A.x;
+       // System.out.println("rayX = "+rayX);
+        
+        double rayY = ray.B.y - intersection.x; //ray.B.y - ray.A.y;
+       // System.out.println("rayY = "+rayY);
+        
+        double dotProduct = (rayX * normalX) + (rayY * normalY);
+       // System.out.println("dotProduct = "+rayY);   
+        
+        double dotNormalX = dotProduct * normalX;
+        double dotNormalY = dotProduct * normalY;
+      //  System.out.println("dotNormalX = "+dotNormalX);
+       // System.out.println("dotNormalY = "+dotNormalY);
+        
+        double reflectedRayTipX = ray.B.x - (dotNormalX * 2);
+        double reflectedRayTipY = ray.B.y - (dotNormalY * 2);
+        System.out.println("reflectedRayTipX = " + reflectedRayTipX);
+        System.out.println("reflectedRayTipY = " + reflectedRayTipY);
+        Point reflectedRayTip = new Point(reflectedRayTipX,reflectedRayTipY);
+        System.out.println("*** ANGULO DEL RAYO REFLETADO :"+RayCast.calculateAngle(ray.B,reflectedRayTip));
+        return reflectedRayTip;
+    }
+    
     public static Color getColor(int intensidad){
         int rgb = ((intensidad * 255) / 100);
         return  new Color(rgb, rgb, rgb);

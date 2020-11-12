@@ -209,8 +209,8 @@ public class RayCastVisualizer extends JPanel implements MouseMotionListener, Ke
         ArrayList<Rayo> result = new ArrayList<>();
         int cantRayos = RayCast.random.nextInt(80 - 30) + 30;// crea la cantidad de rayos random entre 30-80
 
-        double max_Angulo = RayCast.calcRotationAngle2(src, seg.B);
-        double min_Angulo = RayCast.calcRotationAngle2(src, seg.A);
+        double max_Angulo = 0;//RayCast.calcRotationAngle2(src, seg.B);
+        double min_Angulo = 0;//RayCast.calcRotationAngle2(src, seg.A);
         if (min_Angulo > max_Angulo) {
             System.out.println("min>max");
             // double temp_max = max;
