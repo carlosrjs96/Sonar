@@ -16,7 +16,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
-import java.util.Random;
+
 
 public class RayCastVisualizer extends JPanel implements MouseMotionListener, KeyListener {
     public static void main(String[] args) {
@@ -145,19 +145,18 @@ public class RayCastVisualizer extends JPanel implements MouseMotionListener, Ke
                 // currentPixels.add(new Pixel(ci,rayo.intensidad));
                 // double ang = RayCast.getAngulo(activeSegments, ray);
                 // castRays(ang,ci,1,100);
-                
+                /*
                 //obtner el angulo entre el segmento de intersecion y un punto
                 LineSegment interseco = RayCast.getSegmentIntersection(ray, activeSegments);//OBTENGO EL SEGMENTO CON EL QUE INTERSECO
                 Vector normal = RayCast.normaliza(interseco.dir);//obtengo la normal del vector intersecado
                 double angRayNormal = Math.toDegrees(RayCast.calcularAngulo(normal, ray.dir));
-                //System.out.println("normal " + normal.toString());
-                //System.out.println("ang1 normal " + angRayNormal);
+                
 
 
                 //System.out.println("ang2 normal " + Math.toDegrees(RayCast.calcularAngulo(interseco.dir, ray.dir)));
                 LineSegment li = new LineSegment(new Point(20,30), new Point(40,30));
                 double angBase = Math.toDegrees(RayCast.calcularAngulo(interseco.dir, li.dir));
-                //System.out.println("angbas" + angBase);
+                
 
                 
                 Vector v = RayCast.normaliza(ray.dir);
@@ -183,18 +182,22 @@ public class RayCastVisualizer extends JPanel implements MouseMotionListener, Ke
                 //System.out.println(RayCast.in180(ang));
                 //System.out.println("true " + trueAng);
 
-                /*if (ang > 90) {
-                    ang -= 90;
-                }*/
-                //System.out.println(angulo);
+               */
+            
+                LineSegment interseco = RayCast.getSegmentIntersection(ray, activeSegments);//OBTENGO EL SEGMENTO CON EL QUE INTERSECO
+                //Point interseccion = RayCast.getIntersection (ray, interseco);
+        
+                //if (interseccion !=null){
+                    Point reflected = RayCast.getReflected(interseco, ray, src, target);
+                    System.out.println("target : " + target.toString());
+                    System.out.println("reflected : " + reflected.toString());
+                    double angTrue = RayCast.calculateAngle(ci, reflected);
+                    int distNew = dist - (int) RayCast.distance(src, ci)-1;
+                    //double ang = Math.toDegrees(RayCast.getAngulo(activeSegments, ray));//retorna en radianes
+                    
+                    cast(result, angTrue, ci, distNew, n - 1);//angulo - ang * 2
+               // }
                 
-                //System.out.println("n : " + n + " angulo " + ang);
-                //System.out.println("src" + src.toString());
-                //System.out.println("ci: " + ci.toString());
-                
-                int distNew = dist - (int) RayCast.distance(src, ci)-1;
-                //System.out.println("dist : " + distNew);
-                cast(result, angulo - ang *2, ci, distNew, n - 1);
                 
             }
             else {
@@ -204,7 +207,7 @@ public class RayCastVisualizer extends JPanel implements MouseMotionListener, Ke
     }
 
 
-
+/*
     public ArrayList<Rayo> castRays(LineSegment seg, double angulo, Point src, int n, int dist) {
         ArrayList<Rayo> result = new ArrayList<>();
         int cantRayos = RayCast.random.nextInt(80 - 30) + 30;// crea la cantidad de rayos random entre 30-80
@@ -257,6 +260,7 @@ public class RayCastVisualizer extends JPanel implements MouseMotionListener, Ke
         }
         return result;
     }
+    */
 
     Sonar sonar = new Sonar(new Point(50, 150));
 

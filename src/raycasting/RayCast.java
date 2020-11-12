@@ -12,7 +12,7 @@ package raycasting;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Random;
-import javax.swing.text.Segment;
+
 
 public class RayCast {
     public static final double EPSILON = 0.000001;
@@ -273,5 +273,28 @@ public class RayCast {
         double d = normalEuclidea(vector);
         return new Vector (vector.x/d, vector.y/d);
     }
-    
+    public static Point getReflected (LineSegment segmento, LineSegment ray, Point src, Point target ) {
+        Vector normal = normaliza (segmento.dir);
+
+        Point interseccion = getIntersection (ray, segmento);
+        if (interseccion == null){
+            interseccion = getIntersection(segmento, ray);
+        }
+        
+        
+        System.out.println("interseccion " + interseccion.toString());
+        Vector tipRay = new Vector (target.x-interseccion.x, target.y-interseccion.y);
+        System.out.println("largo tip " + normalEuclidea(tipRay));
+
+        double productoPunto = productoPunto(tipRay, normal);
+
+        Point dotNormal = new Point (productoPunto * normal.x, productoPunto * normal.y);
+
+        Point reflectedPoint = new Point (target.x - (dotNormal.x * 2), target.y - (dotNormal.y * 2));
+        Vector v = new Vector(reflectedPoint.x-interseccion.x, reflectedPoint.y-interseccion.y);
+        System.out.println("largo v " + normalEuclidea(v));
+        
+
+        return reflectedPoint;
+   }
 }

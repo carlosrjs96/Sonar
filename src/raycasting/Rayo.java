@@ -5,7 +5,7 @@
  */
 package raycasting;
 
-import java.awt.Color;
+
 
 /**
  *
