@@ -87,7 +87,7 @@ public class RayCast {
         for(LineSegment l : segments){
             Point intersect = getIntersection(ray,l);
             if(intersect == null) continue;
-            if(closestIntersect == null || (distance(ray.A,intersect) < closestDistance&&distance(ray.A,intersect)>2)){
+            if(closestIntersect == null || (distance(ray.A,intersect) < closestDistance&&distance(ray.A,intersect)>10)){
                 
 
                 closestIntersect = intersect;
@@ -97,7 +97,7 @@ public class RayCast {
         for(LineSegment l : segments){
             Point intersect = getIntersection(l,ray);
             if(intersect == null) continue;
-            if(closestIntersect == null || (distance(ray.A,intersect) < closestDistance&&distance(ray.A,intersect)>2)){
+            if(closestIntersect == null || (distance(ray.A,intersect) < closestDistance&&distance(ray.A,intersect)>10)){
                 closestIntersect = intersect;
                 closestDistance = distance(ray.A,intersect);
             }
@@ -158,7 +158,7 @@ public class RayCast {
         for(LineSegment l : segments){
             Point intersect = getIntersection(ray,l);
             if(intersect == null) continue;
-            if(closestIntersect == null || (distance(ray.A,intersect) < closestDistance&&distance(ray.A,intersect)>2)){
+            if(closestIntersect == null || (distance(ray.A,intersect) < closestDistance&&distance(ray.A,intersect)>10)){
                 closestIntersect = intersect;
                 lineCercana = l;
                 closestDistance = distance(ray.A,intersect);
@@ -167,7 +167,7 @@ public class RayCast {
         for(LineSegment l : segments){
             Point intersect = getIntersection(l,ray);
             if(intersect == null) continue;
-            if(closestIntersect == null || (distance(ray.A,intersect) < closestDistance&&distance(ray.A,intersect)>2)){
+            if(closestIntersect == null || (distance(ray.A,intersect) < closestDistance&&distance(ray.A,intersect)>10)){
                 closestIntersect = intersect;
                 lineCercana = l;
                 closestDistance = distance(ray.A,intersect);
@@ -269,6 +269,9 @@ public class RayCast {
         
         Point intersection = RayCast.getIntersection(ray, line);
        // System.out.println("Intersection : "+intersection.toString());
+       if (intersection == null){
+           intersection = RayCast.getIntersection( line, ray);
+       }
         
         double rayX = ray.B.x - intersection.x; // ray.B.x - ray.A.x;
        // System.out.println("rayX = "+rayX);
@@ -286,10 +289,13 @@ public class RayCast {
         
         double reflectedRayTipX = ray.B.x - (dotNormalX * 2);
         double reflectedRayTipY = ray.B.y - (dotNormalY * 2);
-        //System.out.println("reflectedRayTipX = " + reflectedRayTipX);
-        //System.out.println("reflectedRayTipY = " + reflectedRayTipY);
+        /*System.out.println("reflectedRayTipX = " + reflectedRayTipX);
+        System.out.println("reflectedRayTipY = " + reflectedRayTipY);
+        */  
+        
         Point reflectedRayTip = new Point(reflectedRayTipX,reflectedRayTipY);
         //System.out.println("*** ANGULO DEL RAYO REFLETADO :"+RayCast.calculateAngle(ray.B,reflectedRayTip));
+        System.out.println("inter : " + intersection.toString());
         return reflectedRayTip;
     }
     
