@@ -17,6 +17,11 @@ public class Vector {
         this.x = x;
         this.y = y;
     }
+    
+    public Vector (Point a, Point b){
+        this.x = a.x -b.x;
+        this.y = a.y-b.y;
+    }
 
     @Override
     public String toString() {

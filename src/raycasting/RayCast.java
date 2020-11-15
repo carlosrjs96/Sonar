@@ -17,7 +17,8 @@ import java.util.Random;
 public class RayCast {
     public static final double EPSILON = 0.000001;
     public static final Random random = new Random();
-    public static final double DIST_MAX_RAYO = 1000;
+    public static final double DIST_MAX_RAYO = 500;
+    public static double DIST_TOTAL = 10;
 
     public static double crossProduct(Vector a, Vector b) {
         return a.x * b.y - b.x * a.y;
@@ -203,6 +204,27 @@ public class RayCast {
         }
     }
     
+    public static double getDistRayoSecundario2(double dist,Point src,double anguloRayoP,double anguloRayoS){
+        //dist = dist/4;
+//        System.out.println("--------------------------------------");
+//        System.out.println("dist : "+ dist);
+//        System.out.println("Point Principal : "+ src.toString());
+//        System.out.println("anguloRayoP : "+ anguloRayoP);
+//        System.out.println("anguloRayoS : "+ anguloRayoS);
+        Point rayoP = RayCast.calcularPunto(anguloRayoP, src, 100);
+//        System.out.println("Point Principal : "+rayoP.toString());
+        Point rayoS = RayCast.calcularPunto(anguloRayoS, src, 100);
+//        System.out.println("Point Secundario : "+rayoS.toString());
+        double diferenciaRayos = RayCast.calcularAngulo(src, rayoP, rayoS);
+        //if(diferenciaRayos>90){diferenciaRayos=diferenciaRayos-90;}
+//        System.out.println("Diferencia : "+diferenciaRayos);
+        double result = dist * (180- diferenciaRayos) / 180; 
+//        System.out.println("Dist : "+result);
+//        System.out.println("--------------------------------------");
+        return result;
+    }
+    
+    
     
     
     public static double normalEuclidea(Vector a){
@@ -215,6 +237,12 @@ public class RayCast {
     
     public static double productoPunto(Vector a, Vector b){
         return (a.x * b.x) + (a.y * b.y);
+    }
+    
+      public static double calcularAngulo (Point vertice, Point princ, Point sec){
+        Vector vect1 = new Vector (vertice, princ);
+        Vector vect2 = new Vector (vertice, sec);
+        return Math.toDegrees(calcularAngulo(vect1, vect2));
     }
     
     public static double calcularAngulo(Vector a, Vector b){
@@ -242,6 +270,11 @@ public class RayCast {
         return angleDeg;
     }
     
+    public static double calculateAngle2(Point P1,Point P2,Point P3){ //calcula el angulo a partir de 3 puntos (P1 como origen)
+        double result = Math.atan2(P3.y - P1.y, P3.x - P1.x) - Math.atan2(P2.y - P1.y, P2.x - P1.x);
+        return Math.abs(Math.toDegrees(result));
+    }
+
     public static double calculateAngle(Point origen, Point destino){//Calcula el angulo de una linea a partir de un punto de origen
         double x1 = destino.x; 
         double y1 = destino.y; 
@@ -295,12 +328,16 @@ public class RayCast {
         
         Point reflectedRayTip = new Point(reflectedRayTipX,reflectedRayTipY);
         //System.out.println("*** ANGULO DEL RAYO REFLETADO :"+RayCast.calculateAngle(ray.B,reflectedRayTip));
-        System.out.println("inter : " + intersection.toString());
+        //System.out.println("inter : " + intersection.toString());
         return reflectedRayTip;
     }
     
     public static Color getColor(int intensidad){
-        int rgb = ((intensidad * 255) / 100);
+        int rgb = ((intensidad * 255) / 100);        
+//        System.out.println(">>intensidad : "+  intensidad);
+//        System.out.println("COLOR : "+  rgb);
+        rgb = Math.abs(rgb % 255);
+        
         return  new Color(rgb, rgb, rgb);
     }
 

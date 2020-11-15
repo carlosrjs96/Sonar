@@ -25,6 +25,7 @@ public class Sonar {
     LineSegment lineaCentral;
     double angulo;
     
+    
     public Sonar( Point D) {
         this.angulo = 270;
         this.A = new Point(D.x - 20 , D.y);
@@ -37,7 +38,7 @@ public class Sonar {
         this.lineaCentral = new LineSegment(D,C);
         actualizarPoligono();
 
-        System.out.println("ang : " + RayCast.calcularAngulo(Boca.dir, lineaCentral.dir));
+        //System.out.println("ang : " + RayCast.calcularAngulo(Boca.dir, lineaCentral.dir));
     }
     
     public void cambiarPosicion(int direccion){
@@ -67,17 +68,14 @@ public class Sonar {
         //actualiza los puntos del poligono.
         actualizarPoligono();
         LineSegment l = new LineSegment(D, C);
-        System.out.println("ang : " + Math.toDegrees(RayCast.calcularAngulo(Boca.dir, l.dir)));
-        System.out.println(Boca.toString());
-        System.out.println(l.toString());
-        System.out.println("ang rad : " + angulo);
+        //System.out.println("ang rad : " + angulo);
     }
     
     public void cambiarAngulo(boolean lado){
         if(lado){
-            this.angulo = this.angulo - 3;
+            this.angulo = this.angulo - 1;
         }else{
-            this.angulo = this.angulo + 3;
+            this.angulo = this.angulo + 1;
         }
         this.rotarPosicion();
         //System.out.println("Angulo: "+this.angulo);

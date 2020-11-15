@@ -19,12 +19,14 @@ public class Pruebas {
         LineSegment line = new LineSegment(new Point(300, 100),new Point(500, 300));
         LineSegment ray = new LineSegment(new Point(400, 100),new Point(400, 400));
         
-        System.out.println("Resutado: " + RayCast.getRayReflectedTip(line, ray));
+        //System.out.println("Resutado: " + RayCast.getRayReflectedTip(line, ray));
         //LineSegment ray = new LineSegment(new Point(400, 400),new Point(400, 100));
-   
-        //System.out.println("ANGULO 3 puntos :"+RayCast.calculateAngle(ray.B, line.A , ray.A));
+        /*Point p1 = new Point (0,0);
+        Point vertice = new Point (5,0);
+        Point p2 = new Point (10,5);*/
+        System.out.println(RayCast.calcularAngulo(ray.B,line.A, ray.A));
         
-        //System.out.println("ANGULO 2 puntos :"+RayCast.calculateAngle(ray.B, line.B));
+        //System.out.println("ANGULO 2 puntos :"+RayCast.calculateAngle(rayB, line.B));
    
         //LineSegment line = new LineSegment(new Point(2, 6),new Point(4, 4));
         //LineSegment ray = new LineSegment(new Point(3, 3),new Point(3, 6));

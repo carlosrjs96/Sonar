@@ -17,6 +17,7 @@ public class Rayo {
     double distanciaRestante;//cuanta energia termino //770 //370 //270**---//600|60% //450|45% //200|20%
     int intensidad;
     double angulo;
+    public final int dist = 500;
 
     public Rayo(LineSegment linea, double distancia,double angulo) {
         this.linea = linea;
@@ -29,7 +30,11 @@ public class Rayo {
     // 1000   distrestante
     // 100      x
     public int asignarIntensidad(){ 
-        return (int)(this.distanciaRestante * 100) / (int)RayCast.DIST_MAX_RAYO;
+        //System.out.println("distancia: "+distanciaRestante);
+        //System.out.println("MAX: "+((int)RayCast.DIST_MAX_RAYO));
+        int intensidad = (int)(this.distanciaRestante * 100) / ((int)RayCast.DIST_MAX_RAYO);
+        //System.out.println("intensidad: " + intensidad);
+        return intensidad;
     }
 
     public LineSegment getLinea() {
