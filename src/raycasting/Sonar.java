@@ -42,14 +42,15 @@ public class Sonar {
     }
     
     public void cambiarPosicion(int direccion){
+        int n = 1;
         if(direccion == 1){//IZQUIERDA
-            this.A.x += -5; this.B.x += -5; this.C.x += -5; this.D.x += -5; 
+            this.A.x += -n; this.B.x += -n; this.C.x += -n; this.D.x += -n; 
         }else if(direccion == 2){//ARRIBA
-            this.A.y += -5; this.B.y += -5; this.C.y += -5; this.D.y += -5;
+            this.A.y += -n; this.B.y += -n; this.C.y += -n; this.D.y += -n;
         }else if(direccion == 3){//DERECHA
-            this.A.x += 5; this.B.x += 5; this.C.x += 5; this.D.x += 5; 
+            this.A.x += n; this.B.x += n; this.C.x += n; this.D.x += n; 
         }else if(direccion == 4){//ABAJO
-            this.A.y += 5; this.B.y += 5; this.C.y += 5; this.D.y += 5;
+            this.A.y += n; this.B.y += n; this.C.y += n; this.D.y += n;
         }
         //actualiza los segmentos del sonar.
         actualizarSegmentos();
@@ -73,9 +74,9 @@ public class Sonar {
     
     public void cambiarAngulo(boolean lado){
         if(lado){
-            this.angulo = this.angulo - 1;
+            this.angulo = this.angulo - 0.5;
         }else{
-            this.angulo = this.angulo + 1;
+            this.angulo = this.angulo + 0.5;
         }
         this.rotarPosicion();
         //System.out.println("Angulo: "+this.angulo);

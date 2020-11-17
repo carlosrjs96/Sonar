@@ -26,7 +26,7 @@ public class RayCastVisualizer extends JPanel implements MouseMotionListener, Ke
     public static void main(String[] args) {
         JFrame window = new JFrame();
         window.setTitle("RayCast Visualizer");
-        window.setSize(640, 380);
+        window.setSize(600, 600);
 
         RayCastVisualizer rcv = new RayCastVisualizer();
 
@@ -56,29 +56,29 @@ public class RayCastVisualizer extends JPanel implements MouseMotionListener, Ke
         // Border Polygon
         Polygon b = new Polygon();
         b.addPoint(0, 0);
-        b.addPoint(640, 0);
-        b.addPoint(640, 360);
-        b.addPoint(0, 360);//0, 360
+        b.addPoint(500, 0);
+        b.addPoint(500, 500);
+        b.addPoint(0, 500);//0, 360
         activePolygons.add(b);
 
         Polygon p1 = new Polygon();
         p1.addPoint(100, 150);
         p1.addPoint(120, 50);
         p1.addPoint(200, 80);
-        p1.addPoint(140, 210);
+        p1.addPoint(150, 170);
         activePolygons.add(p1);
 
         Polygon p2 = new Polygon();
         p2.addPoint(100, 200);
-        p2.addPoint(120, 250);
-        p2.addPoint(60, 300);
+        p2.addPoint(150, 300);
+        p2.addPoint(50, 300);
         activePolygons.add(p2);
 
         Polygon p3 = new Polygon();
         p3.addPoint(200, 260);
         p3.addPoint(220, 150);
         p3.addPoint(300, 200);
-        p3.addPoint(350, 320);
+        p3.addPoint(350, 280);
         activePolygons.add(p3);
 
         Polygon p4 = new Polygon();
@@ -88,17 +88,16 @@ public class RayCastVisualizer extends JPanel implements MouseMotionListener, Ke
         activePolygons.add(p4);
 
         Polygon p5 = new Polygon();
-        p5.addPoint(450, 190);
-        p5.addPoint(560, 170);
-        p5.addPoint(540, 270);
-        p5.addPoint(430, 290);
+        p5.addPoint(100, 350);
+        p5.addPoint(120, 440);
+        p5.addPoint(300, 400);
+        p5.addPoint(200, 290);
         activePolygons.add(p5);
 
         Polygon p6 = new Polygon();
         p6.addPoint(400, 95);
-        p6.addPoint(580, 50);
+        p6.addPoint(480, 340);
         p6.addPoint(480, 150);
-        p6.addPoint(400, 95);
         activePolygons.add(p6);
     }
 
@@ -177,9 +176,13 @@ public class RayCastVisualizer extends JPanel implements MouseMotionListener, Ke
                     Rayo rayo = new Rayo(new LineSegment(src, ci), dist, angle_div);
                     if (interseco == sonar.Boca) {
                         int distRestante = ((int) RayCast.DIST_TOTAL - new_dist) / 2;
-                        Point point = RayCast.calcularPunto(sonar.angulo, sonar.D, distRestante);
-                       // rayo.intensidad
-                        this.currentPixels.add(new Pixel(point, rayo.intensidad));
+                        
+                            Point point = RayCast.calcularPunto(sonar.angulo, sonar.D, distRestante);
+                            // rayo.intensidad
+                            if (RayCast.distance(point, sonar.D) > 5)
+                             this.currentPixels.add(new Pixel(point, rayo.intensidad));
+                        
+                        
                     } else if (interseco==sonar.Lado1 || interseco==sonar.Lado2) {
                         return;
                     } else {
@@ -210,7 +213,7 @@ public class RayCastVisualizer extends JPanel implements MouseMotionListener, Ke
     @Override
     public void paint(Graphics g) {
         super.paint(g);
-        if (verPologonos == true) {
+        if (verPologonos) {
             g.setColor(Color.BLUE);
             for (Polygon p : activePolygons) {
                 g.drawPolygon(p);
@@ -220,7 +223,7 @@ public class RayCastVisualizer extends JPanel implements MouseMotionListener, Ke
         g.setColor(Color.GREEN);
         g.drawPolygon(sonar.getPoligono());
         
-        if (verRayos == true) {
+        if (verRayos) {
             g.setColor(Color.RED);
             for (Rayo p : currentRays) {
                 // g.drawLine((int)mousePos.x,(int)mousePos.y,(int)p.x,(int)p.y);
@@ -231,10 +234,16 @@ public class RayCastVisualizer extends JPanel implements MouseMotionListener, Ke
         }
         
         for (Pixel pixel : currentPixels) {
-            g.setColor(pixel.color);
-            g.drawLine((int) pixel.point.x, (int) pixel.point.y, (int) pixel.point.x, (int) pixel.point.y);
+            if (pixel.getColor().getRed()!=0 ){
+                g.setColor(pixel.color);
+                g.drawLine((int) pixel.point.x, (int) pixel.point.y, (int) pixel.point.x, (int) pixel.point.y);
+            }
+
+
+            
         }
     }
+    
 
     @Override
     public void keyPressed(KeyEvent e) {
