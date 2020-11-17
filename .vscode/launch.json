@@ -1,0 +1,28 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Debug (Launch) - Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-Pruebas<Sonar_921d55ae>",
+            "request": "launch",
+            "mainClass": "raycasting.Pruebas",
+            "projectName": "Sonar_921d55ae"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-RayCastVisualizer<Sonar_921d55ae>",
+            "request": "launch",
+            "mainClass": "raycasting.RayCastVisualizer",
+            "projectName": "Sonar_921d55ae"
+        }
+    ]
+}

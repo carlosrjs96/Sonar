@@ -218,7 +218,7 @@ public class RayCast {
         double diferenciaRayos = RayCast.calcularAngulo(src, rayoP, rayoS);
         //if(diferenciaRayos>90){diferenciaRayos=diferenciaRayos-90;}
 //        System.out.println("Diferencia : "+diferenciaRayos);
-        double result = dist * (180- diferenciaRayos) / 180; 
+        double result = dist - ( diferenciaRayos*dist) / 180; 
 //        System.out.println("Dist : "+result);
 //        System.out.println("--------------------------------------");
         return result;

@@ -24,7 +24,10 @@ public class Pruebas {
         /*Point p1 = new Point (0,0);
         Point vertice = new Point (5,0);
         Point p2 = new Point (10,5);*/
-        System.out.println(RayCast.calcularAngulo(ray.B,line.A, ray.A));
+        Point p1 = new Point (0,4);
+        Point vert= new Point (0,0);
+        Point p2 = new Point ( 5,0);
+        System.out.println(RayCast.calcularAngulo(vert,p1, p1));
         
         //System.out.println("ANGULO 2 puntos :"+RayCast.calculateAngle(rayB, line.B));
    

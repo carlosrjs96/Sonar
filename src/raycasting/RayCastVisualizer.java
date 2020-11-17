@@ -136,12 +136,13 @@ public class RayCastVisualizer extends JPanel implements MouseMotionListener, Ke
     ArrayList<Pixel> currentPixels = new ArrayList<>();
 
     public void cast(LineSegment seg,ArrayList<Rayo> result, double angulo, Point src, int dist, int n) {
-                
-        //System.out.println("a : " + Math.toDegrees(angulo));
+        
+
         angulo = angulo %360;
         int cantRayos = RayCast.random.nextInt(20 - 10) + 10;// crea la cantidad de rayos random entre 30-80
-        //int cantRayos = 3;
-        double angReflectP = 0;
+
+        Point basePoint = null;
+
         if (dist > 0 && n < 3) {
             for (int i = 0; i < cantRayos; i++) {
                 double angle_div;
@@ -152,20 +153,18 @@ public class RayCastVisualizer extends JPanel implements MouseMotionListener, Ke
                 }else{
                     int min_Angulo = Math.abs((int)RayCast.calculateAngle(src, seg.A));
                     int max_Angulo = Math.abs((int)RayCast.calculateAngle(src, seg.B));
-                    //System.out.println("MIN: "+min_Angulo);
-                    //System.out.println("MAX: "+max_Angulo);
+
                     while (min_Angulo>=max_Angulo){
                         max_Angulo+=360;
                     }
-                    //random.nextInt(max - min) + min;
+
                     angle_div = RayCast.random.nextInt((int) (max_Angulo) - (int) (min_Angulo)) + (int) (min_Angulo); // crea
-                    //new_dist = (int)RayCast.getDistRayoSecundario(dist, angulo, angle_div);
-                    //if(angReflectP!=0){angReflectP=angulo;}
-                    //new_dist = (int)RayCast.getDistRayoSecundario2(dist, src, angReflectP, angle_div);
-                    new_dist = dist;
+
+                    new_dist = (int)RayCast.getDistRayoSecundario2(dist, src, angulo, angle_div);
+
                 }
                 if(n==0){
-                    RayCast.DIST_TOTAL = new_dist;
+                    RayCast.DIST_TOTAL = dist;
                     //aqui empieza el sonar 
                 }
                 Point target = RayCast.calcularPunto(angle_div, src, new_dist); // calcula el punto destino del rayo
@@ -181,12 +180,18 @@ public class RayCastVisualizer extends JPanel implements MouseMotionListener, Ke
                         Point point = RayCast.calcularPunto(sonar.angulo, sonar.D, distRestante);
                        // rayo.intensidad
                         this.currentPixels.add(new Pixel(point, rayo.intensidad));
-                    } else if (interseco == sonar.Lado1 || interseco == sonar.Lado2) {
+                    } else if (interseco==sonar.Lado1 || interseco==sonar.Lado2) {
                         return;
                     } else {
+                        
                         Point reflected = RayCast.getRayReflectedTip(interseco, ray);
+                        if (basePoint == null) basePoint = reflected;
                         double angTrue = RayCast.calculateAngle(ci, reflected);
-                        //if(i==0){angReflectP=angTrue;}
+                        
+                        int intensidad = 100 - (int)RayCast.calcularAngulo(ci, reflected,basePoint) * 100 / 180 ;
+                        intensidad = (int)RayCast.getDistRayoSecundario2(100, src, angulo, angle_div);
+;
+                        rayo.setIntensidad(intensidad);
                         result.add(rayo);
                         cast(interseco, result, angTrue, ci, new_dist, n + 1);//angulo - ang * 2
                     }
@@ -198,60 +203,7 @@ public class RayCastVisualizer extends JPanel implements MouseMotionListener, Ke
     }
 
 
-/*
-    public ArrayList<Rayo> castRays(LineSegment seg, double angulo, Point src, int n, int dist) {
-        ArrayList<Rayo> result = new ArrayList<>();
-        int cantRayos = RayCast.random.nextInt(80 - 30) + 30;// crea la cantidad de rayos random entre 30-80
 
-        double max_Angulo = RayCast.calcRotationAngle2(src, seg.B);
-        double min_Angulo = RayCast.calcRotationAngle2(src, seg.A);
-        if (min_Angulo > max_Angulo) {
-            System.out.println("min>max");
-            // double temp_max = max;
-            double temp_min = min_Angulo;
-            min_Angulo = max_Angulo;
-            max_Angulo = temp_min;
-        } else {
-            System.out.println("max>min");
-        }
-
-        for (int i = 0; i < cantRayos; i++) {
-            double angle_div;
-            int new_dist;
-            if (i == 0) {
-                angle_div = angulo; // crea el angulo del rayo principal
-                new_dist = dist;
-            } else {// REVISAR EL ANGULO ALEATORIO SOLO SIRVE PARA EL SONAR<<<<<<<<<<<<<<<<<<<
-                angle_div = RayCast.random.nextInt((int) (max_Angulo) - (int) (min_Angulo)) + (int) (min_Angulo); // crea
-                                                                                                                  // el
-                                                                                                                  // angulo
-                                                                                                                  // random
-                                                                                                                  // del
-                                                                                                                  // rayo
-                                                                                                                  // secundario
-                // new_dist = (int)RayCast.getDistRayoSecundario(dist, angulo, angle_div);
-                // angle_div = angulo;
-                new_dist = dist;
-            }
-
-            Point target = RayCast.calcularPunto(angle_div, src, new_dist); // calcula el punto destino del rayo
-            LineSegment ray = new LineSegment(src, target);// crea el segmento del rayo
-            Point ci = RayCast.getClosestIntersection(ray, activeSegments);// crea el punto de interseccion del rayo con
-                                                                           // un segmento
-
-            if (ci != null) {
-                Rayo rayo = new Rayo(new LineSegment(src, ci), RayCast.distance(src, ci), angulo);
-                result.add(rayo); // result.add(ci);
-                // currentPixels.add(new Pixel(ci,rayo.intensidad));
-                // double ang = RayCast.getAngulo(activeSegments, ray);
-                // castRays(ang,ci,1,100);
-            } else {
-                result.add(new Rayo(ray, new_dist, angulo)); // result.add(target);
-            }
-        }
-        return result;
-    }
-    */
 
     Sonar sonar = new Sonar(new Point(50, 150));
 
@@ -322,6 +274,7 @@ public class RayCastVisualizer extends JPanel implements MouseMotionListener, Ke
         this.activeSegments.add(sonar.Boca);
         this.activeSegments.add(sonar.Lado1);
         this.activeSegments.add(sonar.Lado2);
+        System.out.println("-------------------------------");
         cast (sonar.Boca,this.currentRays, sonar.getAngulo(), sonar.getD(),(int)RayCast.DIST_MAX_RAYO,0);
         this.activeSegments.remove(sonar.Boca);
         this.activeSegments.remove(sonar.Lado1);
