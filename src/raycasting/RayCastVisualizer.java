@@ -139,7 +139,7 @@ public class RayCastVisualizer extends JPanel implements MouseMotionListener, Ke
 
         angulo = angulo %360;
         int cantRayos = RayCast.random.nextInt(20 - 10) + 10;// crea la cantidad de rayos random entre 30-80
-
+        //cantRayos = 3;
         Point basePoint = null;
 
         if (dist > 0 && n < 3) {
