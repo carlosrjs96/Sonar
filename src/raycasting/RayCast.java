@@ -239,7 +239,7 @@ public class RayCast {
         return (a.x * b.x) + (a.y * b.y);
     }
     
-      public static double calcularAngulo (Point vertice, Point princ, Point sec){
+    public static double calcularAngulo (Point vertice, Point princ, Point sec){
         Vector vect1 = new Vector (vertice, princ);
         Vector vect2 = new Vector (vertice, sec);
         return Math.toDegrees(calcularAngulo(vect1, vect2));

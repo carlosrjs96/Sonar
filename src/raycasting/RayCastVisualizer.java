@@ -20,8 +20,11 @@ import java.util.ArrayList;
 
 
 public class RayCastVisualizer extends JPanel implements MouseMotionListener, KeyListener {
-    public boolean verPologonos = false;
+    public boolean verPologonos = true;
     public boolean verRayos = false;
+    public boolean llamar = false;
+    public int numRayos = 0 ;
+    public int numPixel = 0;
     
     public static void main(String[] args) {
         JFrame window = new JFrame();
@@ -179,8 +182,11 @@ public class RayCastVisualizer extends JPanel implements MouseMotionListener, Ke
                         
                             Point point = RayCast.calcularPunto(sonar.angulo, sonar.D, distRestante);
                             // rayo.intensidad
-                            if (RayCast.distance(point, sonar.D) > 5)
-                             this.currentPixels.add(new Pixel(point, rayo.intensidad));
+                            if (RayCast.distance(point, sonar.D) > 5){
+                                this.currentPixels.add(new Pixel(point, rayo.intensidad)); 
+                                numPixel++;
+                            }
+                            
                         
                         
                     } else if (interseco==sonar.Lado1 || interseco==sonar.Lado2) {
@@ -194,7 +200,7 @@ public class RayCastVisualizer extends JPanel implements MouseMotionListener, Ke
                         int intensidad = 100 - (int)RayCast.calcularAngulo(ci, reflected,basePoint) * 100 / 180 ;
                         intensidad = (int)RayCast.getDistRayoSecundario2(100, src, angulo, angle_div);
 ;
-                        rayo.setIntensidad(intensidad);
+                        rayo.setIntensidad(intensidad); numRayos++;
                         result.add(rayo);
                         cast(interseco, result, angTrue, ci, new_dist, n + 1);//angulo - ang * 2
                     }
@@ -274,6 +280,17 @@ public class RayCastVisualizer extends JPanel implements MouseMotionListener, Ke
         }
         if (b == KeyEvent.VK_P) {
             this.verRayos =! this.verRayos;
+            if (verRayos) System.out.println("Rayos visibles");
+            else {
+                System.out.println("Rayos invisibles");
+            }
+        }
+        if (b == KeyEvent.VK_G) {
+            this.llamar =! this.llamar;
+            if (llamar) System.out.println("Llamar habilitado");
+            else {
+                System.out.println("Llamar deshabilitado");
+            }
         }
         
 
@@ -283,8 +300,20 @@ public class RayCastVisualizer extends JPanel implements MouseMotionListener, Ke
         this.activeSegments.add(sonar.Boca);
         this.activeSegments.add(sonar.Lado1);
         this.activeSegments.add(sonar.Lado2);
-        System.out.println("-------------------------------");
-        cast (sonar.Boca,this.currentRays, sonar.getAngulo(), sonar.getD(),(int)RayCast.DIST_MAX_RAYO,0);
+        //System.out.println("-------------------------------");
+        numRayos = 0;
+        numPixel = 0;
+
+        double inicio  = System.currentTimeMillis();
+        if (llamar){
+            cast (sonar.Boca,this.currentRays, sonar.getAngulo(), sonar.getD(),(int)RayCast.DIST_MAX_RAYO,0);
+        }
+        //cast (sonar.Boca,this.currentRays, sonar.getAngulo(), sonar.getD(),(int)RayCast.DIST_MAX_RAYO,0);
+        double fin = System.currentTimeMillis();
+        double tiempo = fin - inicio;
+        /*if (verPologonos)
+        System.out.println(numRayos+"*"+numPixel+"*"+tiempo);*/
+        
         this.activeSegments.remove(sonar.Boca);
         this.activeSegments.remove(sonar.Lado1);
         this.activeSegments.remove(sonar.Lado2);
